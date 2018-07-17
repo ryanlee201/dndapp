@@ -10,8 +10,12 @@
           <option name="url" value="https://github.com/ryanlee201/DNDSpellcard.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/ryanlee201/dndapp.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
-    <option name="cloneParentDir" value="$USER_HOME$/Documents/Ryan/Android/dndspellcards" />
+    <option name="cloneParentDir" value="$USER_HOME$/Documents/Ryan/Android/MyFirstApp" />
   </component>
 </application>
