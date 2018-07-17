@@ -128,7 +128,6 @@ public class DatabaseAccess {
                         " AND name In" + deck;
 
         Cursor cursor = database.rawQuery(query,null);
-4
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
             listString.add(cursor.getString(0));
