@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">My First App</string>
+    <string name="btn_viewspell">View Spell</string>
+    <string name="spell_card">Spell Card</string>
+    <string name="apply_all">Apply All</string>
+    <string name="txt_filter">Filter Settings</string>
+    <string name="txt_level">Level</string>
+    <string name="btn_filter">Filter</string>
+    <string name="btn_applyall">Apply All</string>
+    <string name="spell_cantrip">Cantrip</string>
+    <string name="spell_lvl1">Lvl. 1</string>
+    <string name="spell_lvl2">Lvl. 2</string>
+    <string name="spell_lvl3">Lvl. 3</string>
+    <string name="spell_lvl4">Lvl. 4</string>
+    <string name="spell_lvl5">Lvl. 5</string>
+    <string name="spell_lvl6">Lvl. 6</string>
+    <string name="spell_lvl7">Lvl. 7</string>
+    <string name="spell_lvl8">Lvl. 8</string>
+    <string name="spell_lvl9">Lvl. 9</string>
+    <string name="class_barbarian">Barbarian</string>
+    <string name="class_bard">Bard</string>
+    <string name="class_cleric">Cleric</string>
+    <string name="class_druid">Druid</string>
+    <string name="class_fighter">Fighter</string>
+    <string name="class_monk">Monk</string>
+    <string name="class_paladin">Paladin</string>
+    <string name="class_ranger">Ranger</string>
+    <string name="class_rogue">Rogue</string>
+    <string name="class_sorcerer">Sorcerer</string>
+    <string name="class_warlock">Warlock</string>
+    <string name="class_wizard">Wizard</string>
+    <string name="txt_class">Class</string>
+</resources>
