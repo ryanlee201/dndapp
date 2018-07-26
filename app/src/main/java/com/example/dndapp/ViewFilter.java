@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
-import com.example.myfirstapp.R;
+import com.example.dndapp.R;
 
 public class ViewFilter extends AppCompatActivity{
 
