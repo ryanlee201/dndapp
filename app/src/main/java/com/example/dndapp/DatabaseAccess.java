@@ -67,7 +67,7 @@ public class DatabaseAccess {
     }
 
     /**
-     *
+     * get all spell cards
      * @return
      */
     public String[] getSpellCards() {
@@ -81,13 +81,15 @@ public class DatabaseAccess {
             cursor.moveToNext();
         }
 
+        cursor.close();
+
         String[] spells = listString.toArray(new String[0]);
 
         return spells;
     }
 
     /**
-     *
+     * get spellcards filtered by level
      * @param lvls
      * @return
      */
@@ -141,6 +143,13 @@ public class DatabaseAccess {
         return spells;
     }
 
+    /**
+     * get spellcards filtered by class
+     *
+     * @param dndclasses
+     * @param deck
+     * @return
+     */
     public String[] filterByClass(int[] dndclasses, String[] deck) {
 
         List<String> listString = new ArrayList<>();

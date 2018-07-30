@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.myfirstapp.R;
+import com.example.dndapp.R;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     DatabaseOpenHelper dbhelper;
     Context context;
 
-
     private View.OnClickListener onclick_viewSpell = new View.OnClickListener()
     {
         @Override
@@ -25,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
             viewSpellCard();
         }
     };
+
 
     private View.OnClickListener onclick_filter = new View.OnClickListener()
     {

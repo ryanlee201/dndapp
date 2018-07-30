@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.myfirstapp.R;
+import com.example.dndapp.R;
 
 import java.util.Arrays;
 import java.util.List;
