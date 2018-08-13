@@ -30,4 +30,13 @@
     <string name="class_warlock">Warlock</string>
     <string name="class_wizard">Wizard</string>
     <string name="txt_class">Class</string>
+    <string name="btn_add">Add</string>
+    <string name="btn_delete">Delete</string>
+    <string name="txt_race">Race</string>
+    <string name="txt_name">Name</string>
+    <string name="txt_charactercreation">Character Creation</string>
+    <string name="edit_level">Enter charcter level</string>
+    <string name="edit_name">Enter character name</string>
+    <string name="btn_createcharacter">Create Character</string>
+    <string name="text_viewcharacter">View Character</string>
 </resources>
