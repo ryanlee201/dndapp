@@ -29,29 +29,21 @@ public class ViewSpellCard extends AppCompatActivity {
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
 
-//        Bundle extras = getIntent().getExtras();
-//
-//        int [] filterLvls = new int[10];
-//        String[] filterClasses = new String[12];
-//
-//        if (extras != null) {
-//             filterLvls = Arrays.copyOf(extras.getIntArray("Spell Level"),10);
-//             filterClasses = Arrays.copyOf(extras.getStringArray("Spell Class"),12);
-//        }
-//        else
+        Bundle extras = getIntent().getExtras();
+
+        Character character;
+        String [] spells; // = databaseAccess.getSpellCards();
+
+//        if(extras != null)
 //        {
-//            myCustomPagerAdapter = new SlidingImage_Adapter(ViewSpellCard.this, images);
-//            viewPager.setAdapter(myCustomPagerAdapter);
-//            databaseAccess.close(); //this database.close is being called and still going to the below SlidingImage_Adapter call
+//            if(extras.get("Character") instanceof java.lang.Character)
+//            {
+                character = extras.getParcelable("Character");
+                spells = databaseAccess.characterFilter(character);
+//            }
 //        }
 
-
-
-//        int[] = {}
-//        databaseAccess.filterByClass(filterClasses);
-
-
-        myCustomPagerAdapter = new SlidingImage_Adapter(ViewSpellCard.this, databaseAccess.getSpellCards()); // need to create a else option for this
+        myCustomPagerAdapter = new SlidingImage_Adapter(ViewSpellCard.this, spells); // need to create a else option for this
         viewPager.setAdapter(myCustomPagerAdapter);
         databaseAccess.close();
     }

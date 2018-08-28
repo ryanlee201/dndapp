@@ -1,5 +1,6 @@
 package com.example.dndapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,7 +23,7 @@ import java.util.List;
 public class DatabaseAccess {
 
     private SQLiteOpenHelper openHelper;
-    private SQLiteDatabase database;
+    private SQLiteDatabase db;
     private static DatabaseAccess instance;
     private static final String TAG = "MyActivity";
 
@@ -54,26 +55,26 @@ public class DatabaseAccess {
      * Open the database connection.
      */
     public void open() {
-        this.database = openHelper.getWritableDatabase();
+        this.db = openHelper.getWritableDatabase();
     }
 
     /**
      * Close the database connection.
      */
     public void close() {
-        if (database != null) {
-            this.database.close();
+        if (db != null) {
+            this.db.close();
         }
     }
 
     /**
-     * get all spell cards
-     * @return
+     * retrieves all dnd spell names from db
+     * @return string[] of spell name
      */
     public String[] getSpellCards() {
         List<String> listString = new ArrayList<>();
-        String query = "SELECT name FROM SpellCards";
-        Cursor cursor = database.rawQuery(query,null);
+        String [] columns = new String [] {"name"};
+        Cursor cursor = db.query("SpellCards",columns,null,null, null, null , null);
 
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
@@ -89,99 +90,36 @@ public class DatabaseAccess {
     }
 
     /**
-     * get spellcards filtered by level
-     * @param lvls
-     * @return
+     * retrieve all dnd classes from db
+     * @return string[] of classes
      */
-    public String[] filterByLevel(int[] lvls, String[] deck){
-
+    public String[] getClasses() {
         List<String> listString = new ArrayList<>();
+        String [] columns = new String[] {"characterclass"};
+        Cursor cursor = db.query("Classes",columns,null,null, null, null , null);
 
-        String inClause0 = "(";
-
-        for(int i = 0; i < lvls.length; i++)
-        {
-            if(lvls[i] == 1)
-            {
-                if(inClause0.length() == 1)
-                {
-                    inClause0 = inClause0 + i;
-                }
-                else
-                {
-                    inClause0 = inClause0 + "," + i ;
-                }
-
-            }
-        }
-
-        inClause0 = inClause0 + ')';
-
-//        String inClause = Arrays.toString(lvls);
-//
-//        //replacing [] with ()
-//        inClause = inClause.replace("[","(");
-//        inClause = inClause.replace("]",")");
-
-        Log.d("Test array",inClause0);
-
-        String query = "SELECT name FROM SpellCards " +
-                        "WHERE level IN " + inClause0 +
-                        " AND name In" + deck;
-
-        Cursor cursor = database.rawQuery(query,null);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
             listString.add(cursor.getString(0));
             cursor.moveToNext();
         }
 
-        String[] spells = listString.toArray(new String[0]);
+        cursor.close();
 
-        Log.d("Spells", spells.toString());
+        String[] classes = listString.toArray(new String[0]);
 
-        return spells;
+        return classes;
+
     }
 
     /**
-     * get spellcards filtered by class
-     *
-     * @param dndclasses
-     * @param deck
-     * @return
+     * retrieve all dnd races from db
+     * @return string[] of races
      */
-    public String[] filterByClass(int[] dndclasses, String[] deck) {
-
+    public String[] getRaces() {
         List<String> listString = new ArrayList<>();
-
-        String inClause0 = "(";
-
-        for(int i = 1; i <= dndclasses.length; i++)
-        {
-            if(dndclasses[i] == 1)
-            {
-                if(inClause0.length() == 1)
-                {
-                    inClause0 = inClause0 + i;
-                }
-                else
-                {
-                    inClause0 = inClause0 + "," + i ;
-                }
-
-            }
-        }
-
-        inClause0 = inClause0 + ')';
-
-
-
-        String query = "SELECT DISTINCT s.name " +
-                        "FROM SpellClass sc " +
-                        "INNER JOIN SpellCards s ON s.spellid = sc.spellid " +
-                        "WHERE sc.classid IN" + inClause0 + " AND s.name In" + deck;
-
-        Cursor cursor = database.rawQuery(query,null);
+        String [] columns = new String[] {"race"};
+        Cursor cursor = db.query("Races",columns,null,null, null, null , null);
 
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
@@ -189,13 +127,224 @@ public class DatabaseAccess {
             cursor.moveToNext();
         }
 
-        String[] spells = listString.toArray(new String[0]);
+        cursor.close();
 
-        Log.d("Spells", spells.toString());
+        String[] races = listString.toArray(new String[0]);
 
-        return spells;
+        return races;
 
     }
+
+    public ArrayList<Character> getCharacters() {
+
+        ArrayList<Character> allCharacters = new ArrayList<>();
+        String[] columns = {"characterid", "name", "level", "race", "characterclass"};
+        Cursor cursor = db.query("Characters", columns, null, null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                Character character = new Character();
+                character.setId(cursor.getString(cursor.getColumnIndex("characterid")));
+                character.setName(cursor.getString(cursor.getColumnIndex("name")));
+                character.setLevel(cursor.getString(cursor.getColumnIndex("level")));
+                character.setRace(cursor.getString(cursor.getColumnIndex("race")));
+                character.setCharacterclass(cursor.getString(cursor.getColumnIndex("characterclass")));
+
+
+                allCharacters.add(character);
+            } while (cursor.moveToNext());
+        }
+        return allCharacters;
+
+    }
+
+
+    public long addCharacter(Character newcharacter) {
+
+        ContentValues values = new ContentValues();
+        values.put("name",newcharacter.getName());
+        values.put("level",newcharacter.getLevel());
+        values.put("race",newcharacter.getRace());
+        values.put("characterclass",newcharacter.getCharacterclass());
+
+        return db.insert("Characters",null, values);
+
+    }
+
+    public void deleteCharacter(String characterName)
+    {
+        db.execSQL("DELETE FROM Charcters WHERE name=" + "'" + characterName + "'");
+    }
+
+    /**
+     * for use of spell card view from the character
+     * @param character
+     * @return
+     */
+    public String[] characterFilter(Character character)
+    {
+
+        List <String> listString = new ArrayList<>();
+        int level = Integer.parseInt(character.getLevel());
+
+        String [] args = new String [level+2];
+        for(int i = 0; i <= level; i++)
+        {
+            args[i+1] = String.valueOf(i);
+
+        }
+
+        args[0] = character.getCharacterclass();
+
+        //String [] args = {character.getCharacterclass(), "0", "1", "2", "3"};
+
+        String query = "SELECT name " +
+                        "FROM SpellCards as s " +
+                        "INNER JOIN SpellClass as sc on sc.spellcardid = s.spellcardid " +
+                        "INNER JOIN Classes as c on c.classid = sc.classid and c.characterclass = ? " +
+                        "WHERE s.level IN ("+ makePlaceholders(args.length) + ")";
+
+        Cursor cursor = db.rawQuery(query, args);
+
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            listString.add(cursor.getString(0));
+            cursor.moveToNext();
+        }
+
+        String[] filterdspells = listString.toArray(new String[0]);
+
+        return filterdspells;
+    }
+
+    /**
+     * creates placeholders for query
+     * @param len
+     * @return
+     */
+    String makePlaceholders(int len) {
+        if (len < 1) {
+            // It will lead to an invalid query anyway ..
+            throw new RuntimeException("No placeholders");
+        } else {
+            StringBuilder sb = new StringBuilder(len * 2 - 1);
+            sb.append("?");
+            for (int i = 1; i < len; i++) {
+                sb.append(",?");
+            }
+            return sb.toString();
+        }
+    }
+
+
+//    /**
+//     * get spellcards filtered by level
+//     * @param lvls
+//     * @return
+//     */
+//    public String[] filterByLevel(int[] lvls, String[] deck){
+//
+//        List<String> listString = new ArrayList<>();
+//
+//        String inClause0 = "(";
+//
+//        for(int i = 0; i < lvls.length; i++)
+//        {
+//            if(lvls[i] == 1)
+//            {
+//                if(inClause0.length() == 1)
+//                {
+//                    inClause0 = inClause0 + i;
+//                }
+//                else
+//                {
+//                    inClause0 = inClause0 + "," + i ;
+//                }
+//
+//            }
+//        }
+//
+//        inClause0 = inClause0 + ')';
+//
+////        String inClause = Arrays.toString(lvls);
+////
+////        //replacing [] with ()
+////        inClause = inClause.replace("[","(");
+////        inClause = inClause.replace("]",")");
+//
+//        Log.d("Test array",inClause0);
+//
+//        String query = "SELECT name FROM SpellCards " +
+//                        "WHERE level IN " + inClause0 +
+//                        " AND name In" + deck;
+//
+//        Cursor cursor = db.rawQuery(query,null);
+//        cursor.moveToFirst();
+//        while(!cursor.isAfterLast()) {
+//            listString.add(cursor.getString(0));
+//            cursor.moveToNext();
+//        }
+//
+//        String[] spells = listString.toArray(new String[0]);
+//
+//        Log.d("Spells", spells.toString());
+//
+//        return spells;
+//    }
+//
+//    /**
+//     * get spellcards filtered by class
+//     *
+//     * @param dndclasses
+//     * @param deck
+//     * @return
+//     */
+//    public String[] filterByClass(int[] dndclasses, String[] deck) {
+//
+//        List<String> listString = new ArrayList<>();
+//
+//        String inClause0 = "(";
+//
+//        for(int i = 1; i <= dndclasses.length; i++)
+//        {
+//            if(dndclasses[i] == 1)
+//            {
+//                if(inClause0.length() == 1)
+//                {
+//                    inClause0 = inClause0 + i;
+//                }
+//                else
+//                {
+//                    inClause0 = inClause0 + "," + i ;
+//                }
+//
+//            }
+//        }
+//
+//        inClause0 = inClause0 + ')';
+//
+//
+//
+//        String query = "SELECT DISTINCT s.name " +
+//                        "FROM SpellClass sc " +
+//                        "INNER JOIN SpellCards s ON s.spellid = sc.spellid " +
+//                        "WHERE sc.classid IN" + inClause0 + " AND s.name In" + deck;
+//
+//        Cursor cursor = db.rawQuery(query,null);
+//
+//        cursor.moveToFirst();
+//        while(!cursor.isAfterLast()) {
+//            listString.add(cursor.getString(0));
+//            cursor.moveToNext();
+//        }
+//
+//        String[] spells = listString.toArray(new String[0]);
+//
+//        Log.d("Spells", spells.toString());
+//
+//        return spells;
+//
+//    }
+
 
 
 

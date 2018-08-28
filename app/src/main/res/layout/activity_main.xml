@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_constraintEnd_toStartOf="@+id/editText"
+    app:layout_constraintEnd_toStartOf="@+id/characteritem_name"
     app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintStart_toStartOf="@+id/constraintLayout4"
     tools:context=".MainActivity">
@@ -39,5 +39,34 @@
         app:layout_constraintStart_toEndOf="@+id/Spell"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Filter" />
+
+    <Button
+        android:id="@+id/characterview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/text_viewcharacter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Spell"
+        tools:text="View Character" />
+
+    <Button
+        android:id="@+id/main_charactercreation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/txt_charactercreation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/characterview" />
 
 </android.support.constraint.ConstraintLayout>
