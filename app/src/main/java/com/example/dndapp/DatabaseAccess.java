@@ -166,6 +166,7 @@ public class DatabaseAccess {
     }
 
     public String getCharacterId(String name){
+        open();
         String characterid = "";
         Cursor cursor = db.query("Characters", new String[] {"characterid"}, "name = ?", new String [] {name}, null, null, null);
 
@@ -244,6 +245,12 @@ public class DatabaseAccess {
         }
 
         cursor.close();
+    }
+
+    public void deleteCharacterSpells(String characterid, String[] characterspells, String name)
+    {
+       db.execSQL("DELETE FROM Decks WHERE characcterid=" + characterid);
+       db.execSQL("DELETE FROM Characters WHERE name='" + name + "'");
     }
 
     public String[] getCharacterSpellCards(int characterid)

@@ -18,8 +18,13 @@ public class SpellCardGallery extends AppCompatActivity{
     Character character;
     SpellCardGalleryAdapter adapter;
     RecyclerView recyclerView;
-    Button createCharacter;
     String[] spells;
+
+    Button createCharacter;
+    Button goToAddSpellLayout;
+    Button goToDeleteSpellLayout;
+    Button addSpells;
+    Button deleteSpells;
 
     private View.OnClickListener onclick_CreateCharacter = new View.OnClickListener()
     {
@@ -27,6 +32,41 @@ public class SpellCardGallery extends AppCompatActivity{
         public void onClick(View v){
             createCharacter();
         }
+    };
+
+    private View.OnClickListener onclick_GoToAddSpellLayout= new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View v){
+            goToAddSpellLayout();
+        }
+    };
+
+    private View.OnClickListener onclick_GoToDeleteSpellLayout = new View.OnClickListener()
+    {
+
+        @Override
+        public void onClick(View v){
+            goToDeleteSpellLayout();
+        }
+    };
+
+    private View.OnClickListener onclick_AddSpells = new View.OnClickListener()
+    {
+      @Override
+      public void onClick(View v){
+          addToDeck();
+      }
+
+    };
+
+    private View.OnClickListener onclick_DeleteSpells = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View v){
+            deleteFromDeck();
+        }
+
     };
 
     @Override
@@ -53,6 +93,32 @@ public class SpellCardGallery extends AppCompatActivity{
         {
             setContentView(R.layout.spellcard_gallery_characterview);
             recyclerView = (RecyclerView)findViewById(R.id.imagegallery_characterview);
+
+            goToAddSpellLayout = findViewById(R.id.gotoaddspelllayout);
+            goToAddSpellLayout.setOnClickListener(onclick_GoToAddSpellLayout);
+            goToDeleteSpellLayout = findViewById(R.id.gotodeletespelllayout);
+            goToDeleteSpellLayout.setOnClickListener((onclick_GoToDeleteSpellLayout));
+
+            spells = databaseAccess.getCharacterSpellCards(Integer.parseInt(databaseAccess.getCharacterId(character.getName())));
+        }
+        else if(extras.get("Source").equals("AddToDeck"))
+        {
+            setContentView(R.layout.spellcard_gallery_addtodeck);
+            recyclerView = (RecyclerView)findViewById(R.id.imagegallery_addotdeck);
+
+            addSpells = findViewById(R.id.btn_add_spells_to_deck);
+            addSpells.setOnClickListener(onclick_AddSpells);
+
+            spells = databaseAccess.getSpellCards();
+        }
+        else if(extras.get("Source").equals("DeleteFromDeck"))
+        {
+            setContentView(R.layout.spellcard_gallery_deletefromdeck);
+            recyclerView = (RecyclerView)findViewById(R.id.imagegallery_deletefromdeck);
+
+            deleteSpells = findViewById(R.id.delete_fromDeck);
+            deleteSpells.setOnClickListener(onclick_DeleteSpells);
+
             spells = databaseAccess.getCharacterSpellCards(Integer.parseInt(databaseAccess.getCharacterId(character.getName())));
         }
 
@@ -84,5 +150,45 @@ public class SpellCardGallery extends AppCompatActivity{
         Intent intent = new Intent(getApplicationContext(), CharacterView.class);
         startActivity(intent);
     }
+
+    private void goToAddSpellLayout()
+    {
+        Intent intent = new Intent(getApplicationContext(), SpellCardGallery.class);
+        intent.putExtra("Source", "AddToDeck");
+        intent.putExtra("Character", character);
+        startActivity(intent);
+    }
+
+    private void addToDeck()
+    {
+        String [] characterSpells = adapter.getSpells();
+        databaseAccess.addCharacterSpells(databaseAccess.getCharacterId(character.getName()),characterSpells);
+        Intent intent = new Intent(getApplicationContext(),SpellCardGallery.class);
+        intent.putExtra("Source", "CharacterView");
+        intent.putExtra("Character", character);
+        startActivity(intent);
+    }
+
+    private void goToDeleteSpellLayout()
+    {
+        Intent intent = new Intent(getApplicationContext(), SpellCardGallery.class);
+        intent.putExtra("Source", "DeleteFromDeck");
+        intent.putExtra("Character", character);
+        startActivity(intent);
+    }
+
+
+    private void deleteFromDeck()
+    {
+        String [] characterSpells = adapter.getSpells();
+        databaseAccess.deleteCharacterSpells(databaseAccess.getCharacterId(character.getName()),characterSpells,character.getName());
+        Intent intent = new Intent(getApplicationContext(),SpellCardGallery.class);
+        intent.putExtra("Source", "CharacterView");
+        intent.putExtra("Character", character);
+        startActivity(intent);
+
+    }
+
+
 
 }

@@ -5,8 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/imagegallery_addotdeck"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="2dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+    </android.support.v7.widget.RecyclerView>
+
     <Button
-        android:id="@+id/createcharacter"
+        android:id="@+id/btn_add_spells_to_deck"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -14,16 +24,8 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:text="@string/btn_createcharacter"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/btn_add"
+        app:layout_constraintBottom_toBottomOf="@+id/imagegallery_addotdeck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/imagegallery_charactercreation"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="2dp">
-
-    </android.support.v7.widget.RecyclerView>
 </android.support.constraint.ConstraintLayout>
