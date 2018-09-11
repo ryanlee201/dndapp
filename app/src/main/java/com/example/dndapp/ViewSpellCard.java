@@ -38,14 +38,16 @@ public class ViewSpellCard extends AppCompatActivity {
 //        {
 //            if(extras.get("Character") instanceof java.lang.Character)
 //            {
-                character = extras.getParcelable("Character");
-                spells = databaseAccess.characterFilter(character);
+                spells = extras.getStringArray("Spell");
+                //spells = databaseAccess.spellcardCharacterFilter(character);
 //            }
 //        }
 
-        myCustomPagerAdapter = new SlidingImage_Adapter(ViewSpellCard.this, spells); // need to create a else option for this
+        myCustomPagerAdapter = new SlidingImage_Adapter(ViewSpellCard.this, spells);
         viewPager.setAdapter(myCustomPagerAdapter);
+
         databaseAccess.close();
+
     }
 }
 

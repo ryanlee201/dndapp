@@ -17,7 +17,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_characterview;
     private Button btn_charactercreation;
     private DatabaseOpenHelper dbhelper;
-    private Context context;
+    private
+    Context context;
 
     private View.OnClickListener onclick_viewSpell = new View.OnClickListener()
     {

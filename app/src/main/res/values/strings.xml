@@ -39,4 +39,8 @@
     <string name="edit_name">Enter character name</string>
     <string name="btn_createcharacter">Create Character</string>
     <string name="text_viewcharacter">View Character</string>
+    <string name="btn_nextstep">Next Step</string>
+    <string name="delete">DELETE</string>
+    <string name="txt_delete">Delete</string>
+    <string name="txt_newcharacter">New Character</string>
 </resources>

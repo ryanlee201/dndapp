@@ -4,11 +4,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Character implements Parcelable{
+
     private String id;
     private String name;
     private String level;
     private String race;
-    private String characterclass;
+    private String characterclass;;
 
     public Character()
     {
