@@ -1,15 +1,46 @@
+#built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Windows thumbnail db
+Thumbs.db
+
+# OSX files
+.DS_Store
+
+# Android Studio
+*.iml
+.idea/workspace.xml
+.gradle
+build/
+.navigation
+captures/
+output.json 
+
+#NDK
+obj/
+.externalNativeBuild
+
+#Other
 _mac
 androidStudioFirstRun.xml
 codestyles
-.gradle
-.idea
 colors.scheme.xml
 debugger.xml
-dndapp.iml
 editor.codeinsight.xml
 editor.xml
 filetypes.xml
 ide.general.xml
-local.properties
-
-
