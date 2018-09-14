@@ -10,21 +10,22 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class CharacterCreation extends AppCompatActivity{
 
-    Button addCharacter;
+    Button nextStep;
     EditText name;
     Spinner race;
     Spinner spinner_class;
     Spinner level;
     DatabaseAccess databaseAccess;
 
-    private View.OnClickListener onclick_AddCharacter = new View.OnClickListener()
+    private View.OnClickListener onclick_NextStep = new View.OnClickListener()
     {
         @Override
         public void onClick(View v){
-            addCharacter();
+            nextStep();
         }
     };
 
@@ -35,13 +36,13 @@ public class CharacterCreation extends AppCompatActivity{
         databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
 
-        addCharacter = findViewById(R.id.createcharacter);
+        nextStep = findViewById(R.id.nextstep);
         name = findViewById(R.id.edit_name);
         race = findViewById(R.id.dropdown_race);
         spinner_class = findViewById(R.id.dropdown_class);
         level = findViewById(R.id.dropdown_level);
 
-        addCharacter.setOnClickListener((onclick_AddCharacter));
+        nextStep.setOnClickListener((onclick_NextStep));
 
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,databaseAccess.getRaces());
         race.setAdapter(adapter2);
@@ -55,7 +56,7 @@ public class CharacterCreation extends AppCompatActivity{
         level.setAdapter(adapter3);
     }
 
-    private void addCharacter(){
+    private void nextStep(){
 
         String character_name = name.getText().toString();
         String character_race = race.getSelectedItem().toString();
@@ -68,13 +69,10 @@ public class CharacterCreation extends AppCompatActivity{
         newCharacter.setName(character_name);
         newCharacter.setRace(character_race);
 
-        if(databaseAccess.addCharacter(newCharacter) == -1)
-        {
-            Log.e("Error", "On character insert to db");
-        }
-
-        databaseAccess.close();
-        startActivity(new Intent(CharacterCreation.this, CharacterView.class));
+        Intent intent = new Intent(getApplicationContext(), SpellCardGallery.class);
+        intent.putExtra("Source","CharacterCreation");
+        intent.putExtra("Character", newCharacter);
+        startActivity(intent);
     }
 
 }

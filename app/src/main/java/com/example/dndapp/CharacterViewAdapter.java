@@ -3,11 +3,15 @@ package com.example.dndapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +22,7 @@ import static android.support.v4.content.ContextCompat.startActivity;
 public class CharacterViewAdapter extends RecyclerView.Adapter<CharacterViewAdapter.ViewHolder> {
 
     private Context context;
+    //private int currentPosition;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
@@ -27,6 +32,7 @@ public class CharacterViewAdapter extends RecyclerView.Adapter<CharacterViewAdap
         public TextView classTextView;
         public TextView levelTextView;
         public Button viewspellsButton;
+        public ConstraintLayout viewBackground, viewForeground;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -40,10 +46,12 @@ public class CharacterViewAdapter extends RecyclerView.Adapter<CharacterViewAdap
             classTextView = (TextView) itemView.findViewById(R.id.characteritem_class);
             levelTextView = (TextView) itemView.findViewById(R.id.characteritem_level);
             viewspellsButton = (Button) itemView.findViewById(R.id.item_btn_viewspells);
+            viewBackground = itemView.findViewById(R.id.background);
+            viewForeground = itemView.findViewById(R.id.foreground);
         }
     }
 
-    private List<Character> mCharacter;
+    public List<Character> mCharacter;
 
     // Pass in the contact array into the constructor
     public CharacterViewAdapter(List<Character> characters, Context context) {
@@ -57,7 +65,7 @@ public class CharacterViewAdapter extends RecyclerView.Adapter<CharacterViewAdap
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View contactView = inflater.inflate(R.layout.item_character, parent, false);
+        View contactView = inflater.inflate(R.layout.character_list_item, parent, false);
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(contactView);
@@ -68,6 +76,7 @@ public class CharacterViewAdapter extends RecyclerView.Adapter<CharacterViewAdap
     @Override
     public void onBindViewHolder(CharacterViewAdapter.ViewHolder viewHolder, final int position) {
         // Get the data model based on position
+        //currentPosition = position;
         final Character character = mCharacter.get(position);
 
         TextView textView;
@@ -81,7 +90,8 @@ public class CharacterViewAdapter extends RecyclerView.Adapter<CharacterViewAdap
             public void onClick(View v)
             {
                 //viewSpells();
-                Intent intent = new Intent(context, ViewSpellCard.class);
+                Intent intent = new Intent(context, SpellCardGallery.class);
+                intent.putExtra("Source", "CharacterView");
                 intent.putExtra("Character", character);
                 v.getContext().startActivity(intent);
             }
@@ -103,6 +113,13 @@ public class CharacterViewAdapter extends RecyclerView.Adapter<CharacterViewAdap
         textView.setText(level);
     }
 
+    public void removeCharacter(int position){
+        mCharacter.remove(position);
+        notifyItemRemoved(position);
+    }
+
+
+
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {
@@ -113,4 +130,11 @@ public class CharacterViewAdapter extends RecyclerView.Adapter<CharacterViewAdap
 //    {
 //        startActivity(new Intent(CharacterView.this, ViewSpellCard.class ));
 //    }
+//
+//    public String getCharacterName()
+//    {
+//       return mCharacter.get(currentPosition).getName();
+//
+//    }
+
 }

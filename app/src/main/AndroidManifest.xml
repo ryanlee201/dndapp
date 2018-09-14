@@ -35,6 +35,8 @@
         </activity>
         <activity android:name=".CharacterView">
         </activity>
+        <activity android:name=".SpellCardGallery">
+        </activity>
     </application>
 
 </manifest>

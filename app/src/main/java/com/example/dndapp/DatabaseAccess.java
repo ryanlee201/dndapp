@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.nfc.Tag;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.sql.Array;
 import java.sql.Connection;
@@ -25,7 +26,7 @@ public class DatabaseAccess {
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase db;
     private static DatabaseAccess instance;
-    private static final String TAG = "MyActivity";
+    private static final String LOG_TAG = "Database";
 
 
     /**
@@ -56,6 +57,7 @@ public class DatabaseAccess {
      */
     public void open() {
         this.db = openHelper.getWritableDatabase();
+        Log.i(LOG_TAG,"Database Opened");
     }
 
     /**
@@ -64,6 +66,7 @@ public class DatabaseAccess {
     public void close() {
         if (db != null) {
             this.db.close();
+            Log.i(LOG_TAG,"Database Closed");
         }
     }
 
@@ -151,28 +154,143 @@ public class DatabaseAccess {
 
 
                 allCharacters.add(character);
+
+                //Log.i(LOG_TAG, "Character names: " + character.getName());
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
+
         return allCharacters;
 
     }
 
+    public String getCharacterId(String name){
+        open();
+        String characterid = "";
+        Cursor cursor = db.query("Characters", new String[] {"characterid"}, "name = ?", new String [] {name}, null, null, null);
+
+        if(cursor.moveToFirst())
+        {
+            characterid = cursor.getString(0);
+        }
+
+        cursor.close();
+
+        return characterid;
+    }
 
     public long addCharacter(Character newcharacter) {
 
-        ContentValues values = new ContentValues();
-        values.put("name",newcharacter.getName());
-        values.put("level",newcharacter.getLevel());
-        values.put("race",newcharacter.getRace());
-        values.put("characterclass",newcharacter.getCharacterclass());
+        open();
 
-        return db.insert("Characters",null, values);
+        ContentValues charactervalues = new ContentValues();
+        charactervalues.put("name",newcharacter.getName());
+        charactervalues.put("level",newcharacter.getLevel());
+        charactervalues.put("race",newcharacter.getRace());
+        charactervalues.put("characterclass",newcharacter.getCharacterclass());
 
+        long newRowId = db.insert("Characters",null, charactervalues);
+
+        return newRowId;
     }
 
     public void deleteCharacter(String characterName)
     {
-        db.execSQL("DELETE FROM Charcters WHERE name=" + "'" + characterName + "'");
+        db.execSQL("DELETE FROM Characters WHERE name='" + characterName + "'");
+
+        db.execSQL("DELETE FROM Decks WHERE characterid='" + getCharacterId(characterName)+ "'");
+    }
+
+    public void addCharacterSpells(String characterid, String[] characterSpells) {
+
+        open();
+
+        ArrayList <String> listString = new ArrayList<>();
+
+        String [] columns = new String[] {"spellcardid"};
+
+//        Cursor cursor =
+//                db.query("SpellCards", columns, "name = (" + makePlaceholders(characterSpells.length) + ")", characterSpells, null, null, null);
+        String query1 = "SELECT spellcardid " +
+                "FROM SpellCards AS s " +
+                "Where s.name IN ("+ makePlaceholders(characterSpells.length) + ")";
+
+        Cursor cursor = db.rawQuery(query1, characterSpells);
+
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            listString.add(cursor.getString(0));
+            cursor.moveToNext();
+        }
+
+        String[] spellIds = listString.toArray(new String[0]);
+
+        Log.i(LOG_TAG,"Spellids: " + Arrays.toString(spellIds));
+        Log.i(LOG_TAG, "Characterid: " + characterid);
+
+        String query2 = "INSERT INTO Decks (characterid,spellcardid) " +
+                "VALUES  (?,?)";
+
+        ContentValues deckvalues = new ContentValues();
+        deckvalues.put("characterid",characterid);
+
+        for(int i = 0; i < spellIds.length; i++)
+        {
+            //String [] values = new String[] {characterid,spellIds[i]};
+            deckvalues.put("spellcardid",spellIds[i]);
+            long rowid = db.insert("Decks", null, deckvalues);
+            Log.i(LOG_TAG,"Decks insert row id: " + rowid);
+            //db.rawQuery(query2, values);
+        }
+
+        cursor.close();
+    }
+
+    public void deleteCharacterSpells(String characterid, String[] characterspells, String name)
+    {
+       db.execSQL("DELETE FROM Decks WHERE characcterid=" + characterid);
+       db.execSQL("DELETE FROM Characters WHERE name='" + name + "'");
+    }
+
+    public String[] getCharacterSpellCards(int characterid)
+    {
+        ArrayList <String> listString = new ArrayList<>();
+
+        String query = "SELECT DISTINCT s.name " +
+                        "FROM Spellcards as s " +
+                        "INNER JOIN Decks as d on d.spellcardid = s.spellcardid " +
+                        "INNER JOIN Characters as c on d.characterid = ?";
+
+//        String test_query = "Select characterid " +
+//                            "From Decks ";
+
+//        Cursor test_cursor = db.rawQuery(test_query,null);
+//        test_cursor.moveToFirst();
+//        while(!test_cursor.isAfterLast()) {
+//            listString.add(test_cursor.getString(0));
+//            test_cursor.moveToNext();
+//        }
+//        String[] test = listString.toArray(new String[0]);
+//        Log.i(LOG_TAG,"Decks Info: " + Arrays.toString(test));
+
+        String [] args = new String[]{Integer.toString(characterid)};
+
+        Cursor cursor = db.rawQuery(query, args);
+
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            listString.add(cursor.getString(0));
+            cursor.moveToNext();
+        }
+
+        String[] characterspells = listString.toArray(new String[0]);
+
+        Log.i(LOG_TAG,"Character spells: " + Arrays.toString(characterspells));
+
+        cursor.close();
+
+        return characterspells;
     }
 
     /**
@@ -180,10 +298,10 @@ public class DatabaseAccess {
      * @param character
      * @return
      */
-    public String[] characterFilter(Character character)
+    public String[] spellcardCharacterFilter(Character character)
     {
 
-        List <String> listString = new ArrayList<>();
+        ArrayList <String> listString = new ArrayList<>();
         int level = Integer.parseInt(character.getLevel());
 
         String [] args = new String [level+2];
@@ -197,7 +315,7 @@ public class DatabaseAccess {
 
         //String [] args = {character.getCharacterclass(), "0", "1", "2", "3"};
 
-        String query = "SELECT name " +
+        String query = "SELECT s.name " +
                         "FROM SpellCards as s " +
                         "INNER JOIN SpellClass as sc on sc.spellcardid = s.spellcardid " +
                         "INNER JOIN Classes as c on c.classid = sc.classid and c.characterclass = ? " +
@@ -212,6 +330,8 @@ public class DatabaseAccess {
         }
 
         String[] filterdspells = listString.toArray(new String[0]);
+
+        cursor.close();
 
         return filterdspells;
     }
