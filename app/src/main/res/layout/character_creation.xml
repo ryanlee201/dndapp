@@ -6,68 +6,74 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/character_creation"
+        android:id="@+id/creation_title"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/txt_charactercreation"
-        android:textSize="30sp"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/creation_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="28dp"
         android:text="@string/txt_name"
-        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/character_creation"
+        app:layout_constraintTop_toBottomOf="@+id/creation_title"
         app:layout_constraintVertical_chainStyle="spread_inside"
         tools:text="Name" />
 
     <TextView
-        android:id="@+id/race"
+        android:id="@+id/creation_race"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:text="@string/txt_race"
-        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/creation_name"
         tools:text="Race" />
 
     <TextView
-        android:id="@+id/characterclass"
+        android:id="@+id/creation_class"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:text="@string/txt_class"
-        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/race"
+        app:layout_constraintTop_toBottomOf="@+id/creation_race"
         tools:text="Class" />
 
     <TextView
-        android:id="@+id/level"
+        android:id="@+id/creation_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:text="@string/txt_level"
-        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/characterclass"
+        app:layout_constraintTop_toBottomOf="@+id/creation_class"
         tools:text="Level" />
 
     <EditText
@@ -81,38 +87,38 @@
         android:ems="10"
         android:hint="@string/edit_name"
         android:inputType="textPersonName"
-        app:layout_constraintBaseline_toBaselineOf="@+id/name"
+        app:layout_constraintBaseline_toBaselineOf="@+id/creation_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/name" />
+        app:layout_constraintStart_toEndOf="@+id/creation_name" />
 
     <Spinner
         android:id="@+id/dropdown_race"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/race"
+        app:layout_constraintBottom_toBottomOf="@+id/creation_race"
         app:layout_constraintEnd_toEndOf="@+id/edit_name"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/edit_name"
-        app:layout_constraintTop_toTopOf="@+id/race" />
+        app:layout_constraintTop_toTopOf="@+id/creation_race" />
 
     <Spinner
         android:id="@+id/dropdown_class"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/characterclass"
+        app:layout_constraintBottom_toBottomOf="@+id/creation_class"
         app:layout_constraintEnd_toEndOf="@+id/dropdown_race"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/dropdown_race"
-        app:layout_constraintTop_toTopOf="@+id/characterclass" />
+        app:layout_constraintTop_toTopOf="@+id/creation_class" />
 
     <Spinner
         android:id="@+id/dropdown_level"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/level"
+        app:layout_constraintBottom_toBottomOf="@+id/creation_level"
         app:layout_constraintEnd_toEndOf="@+id/dropdown_class"
         app:layout_constraintStart_toStartOf="@+id/dropdown_class"
-        app:layout_constraintTop_toTopOf="@+id/level" />
+        app:layout_constraintTop_toTopOf="@+id/creation_level" />
 
     <Button
         android:id="@+id/nextstep"

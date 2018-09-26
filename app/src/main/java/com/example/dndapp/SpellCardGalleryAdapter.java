@@ -2,8 +2,11 @@ package com.example.dndapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,8 @@ public class SpellCardGalleryAdapter extends RecyclerView.Adapter<SpellCardGalle
     private String[] galleryList;
     private Context context;
     private HashMap<Integer, String> chosenSpells = new HashMap<>();
+    private BitmapFactory.Options options;
+    private Bitmap reusedBitmap;
 
     public SpellCardGalleryAdapter(Context context, String[] galleryList) {
         this.galleryList = galleryList;
@@ -35,7 +40,14 @@ public class SpellCardGalleryAdapter extends RecyclerView.Adapter<SpellCardGalle
     @Override
     public void onBindViewHolder(final SpellCardGalleryAdapter.ViewHolder viewHolder, final int position) {
         viewHolder.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        viewHolder.img.setImageResource((context.getResources().getIdentifier(galleryList[position],"drawable",context.getPackageName())));
+        //viewHolder.img.setImageResource((context.getResources().getIdentifier(galleryList[position],"drawable",context.getPackageName())));
+        options.inMutable = true;
+        options.inSampleSize = 1;
+        options.inBitmap = reusedBitmap;
+        reusedBitmap = BitmapFactory.decodeResource(context.getResources(),context.getResources().getIdentifier(galleryList[position],"drawable",context.getPackageName()),options);
+
+        Log.i("Image size",Integer.toString(reusedBitmap.getByteCount()));
+        viewHolder.img.setImageBitmap(reusedBitmap);
         viewHolder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,7 +60,6 @@ public class SpellCardGalleryAdapter extends RecyclerView.Adapter<SpellCardGalle
         viewHolder.img.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(context, "you long pressed image " + (position + 1), Toast.LENGTH_SHORT).show();
                 grayOut(viewHolder,position);
                 return true;
                 }
@@ -68,13 +79,14 @@ public class SpellCardGalleryAdapter extends RecyclerView.Adapter<SpellCardGalle
             super(view);
 
             img = (ImageView) view.findViewById(R.id.img);
+            options = new BitmapFactory.Options();
         }
     }
 
     public void grayOut(final SpellCardGalleryAdapter.ViewHolder viewHolder, int position) {
         // if not grayed
         if(viewHolder.img.getTag() != "grayed") {
-            viewHolder.img.setColorFilter(Color.argb(150,200,200,200));
+            viewHolder.img.setColorFilter(Color.argb(180,200,200,200));
             viewHolder.img.setTag("grayed");
             chosenSpells.put(position,galleryList[position]);
         } else {

@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:background="#eeeeee">
+        android:background="@android:color/white">
 
         <TextView
             android:id="@+id/characteritem_name"
@@ -58,7 +58,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/txt_name"
-            android:textSize="24sp"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,6 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/txt_race"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/characteritem_name"
             app:layout_constraintStart_toEndOf="@+id/characteritem_name" />
@@ -78,6 +80,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/txt_class"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/characteritem_name"
@@ -88,24 +91,23 @@
             android:id="@+id/characteritem_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:text="@string/txt_level"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/characteritem_name"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/item_btn_viewspells"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:text="@string/btn_viewspell"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@+id/characteritem_class"
             app:layout_constraintEnd_toEndOf="parent" />
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

@@ -1,15 +1,15 @@
 package com.example.dndapp;
 
-import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class CharacterCreation extends AppCompatActivity{
@@ -35,6 +35,22 @@ public class CharacterCreation extends AppCompatActivity{
 
         databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
+
+        TextView title = (TextView)findViewById(R.id.creation_title);
+        TextView txt_name = (TextView)findViewById(R.id.creation_name);
+        TextView txt_race = (TextView)findViewById(R.id.creation_race);
+        TextView txt_class = (TextView)findViewById(R.id.creation_class);
+        TextView txt_level = (TextView)findViewById(R.id.creation_level);
+
+        Typeface vecna = Typeface.createFromAsset(getAssets(), "fonts/VecnaItalic.otf");
+        Typeface dungeon = Typeface.createFromAsset(getAssets(), "fonts/DUNGRG.ttf");
+
+        title.setTypeface(vecna);
+
+        txt_name.setTypeface(dungeon);
+        txt_race.setTypeface(dungeon);
+        txt_class.setTypeface(dungeon);
+        txt_level.setTypeface(dungeon);
 
         nextStep = findViewById(R.id.nextstep);
         name = findViewById(R.id.edit_name);
@@ -69,9 +85,21 @@ public class CharacterCreation extends AppCompatActivity{
         newCharacter.setName(character_name);
         newCharacter.setRace(character_race);
 
-        Intent intent = new Intent(getApplicationContext(), SpellCardGallery.class);
-        intent.putExtra("Source","CharacterCreation");
-        intent.putExtra("Character", newCharacter);
+        if(name.getText().toString().matches("")){
+            Toast.makeText(this, "You did not enter a name", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Intent intent = new Intent(getApplicationContext(), SpellCardGallery.class);
+            intent.putExtra("Source","CharacterCreation");
+            intent.putExtra("Character", newCharacter);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(getApplicationContext(), CharacterView.class);
         startActivity(intent);
     }
 

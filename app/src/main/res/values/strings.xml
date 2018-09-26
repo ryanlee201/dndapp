@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My First App</string>
+    <string name="app_name">DND Spell Cards</string>
     <string name="btn_viewspell">View Spell</string>
     <string name="spell_card">Spell Card</string>
     <string name="apply_all">Apply All</string>
@@ -43,4 +43,15 @@
     <string name="delete">DELETE</string>
     <string name="txt_delete">Delete</string>
     <string name="txt_newcharacter">New Character</string>
+    <string name="btn_stats">Stats</string>
+    <string name="btn_skills">Skills</string>
+    <string name="btn_rolldie">Roll Die</string>
+    <string name="btn_inventory">Inventory</string>
+    <string name="btn_d4">D4</string>
+    <string name="btn_d6">D6</string>
+    <string name="btn_d8">D8</string>
+    <string name="btn_d10">D10</string>
+    <string name="btn_d00">D00</string>
+    <string name="btn_d12">D12</string>
+    <string name="btn_d20">D20</string>
 </resources>

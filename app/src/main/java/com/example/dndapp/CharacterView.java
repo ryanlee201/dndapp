@@ -108,4 +108,10 @@ public class CharacterView extends AppCompatActivity implements TestSwipeControl
         }
     }
 
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        startActivity(intent);
+    }
+
 }

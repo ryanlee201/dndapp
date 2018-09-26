@@ -44,3 +44,7 @@ editor.codeinsight.xml
 editor.xml
 filetypes.xml
 ide.general.xml
+.idea
+
+/.idea/workspace.xml
+/.idea/libraries

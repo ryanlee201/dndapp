@@ -19,6 +19,7 @@ public class SpellCardGallery extends AppCompatActivity{
     SpellCardGalleryAdapter adapter;
     RecyclerView recyclerView;
     String[] spells;
+    Bundle extras;
 
     Button createCharacter;
     Button goToAddSpellLayout;
@@ -72,7 +73,7 @@ public class SpellCardGallery extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = getIntent().getExtras();
+        extras = getIntent().getExtras();
 
         databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
@@ -140,9 +141,6 @@ public class SpellCardGallery extends AppCompatActivity{
         if (newRowId == -1) {
             Toast.makeText(this, "Error with saving character info", Toast.LENGTH_SHORT).show();
         }
-        else {
-            Toast.makeText(this, "Character saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
-        }
 
         databaseAccess.addCharacterSpells(databaseAccess.getCharacterId(character.getName()),characterSpells);
 
@@ -162,6 +160,14 @@ public class SpellCardGallery extends AppCompatActivity{
     private void addToDeck()
     {
         String [] characterSpells = adapter.getSpells();
+        if(characterSpells.length == 0)
+        {
+            Intent intent = new Intent(getApplicationContext(),SpellCardGallery.class);
+            intent.putExtra("Source", "CharacterView");
+            intent.putExtra("Character", character);
+            startActivity(intent);
+        }
+
         databaseAccess.addCharacterSpells(databaseAccess.getCharacterId(character.getName()),characterSpells);
         Intent intent = new Intent(getApplicationContext(),SpellCardGallery.class);
         intent.putExtra("Source", "CharacterView");
@@ -181,12 +187,49 @@ public class SpellCardGallery extends AppCompatActivity{
     private void deleteFromDeck()
     {
         String [] characterSpells = adapter.getSpells();
-        databaseAccess.deleteCharacterSpells(databaseAccess.getCharacterId(character.getName()),characterSpells,character.getName());
+        if(characterSpells.length == 0)
+        {
+            Intent intent = new Intent( getApplicationContext(),SpellCardGallery.class);
+            intent.putExtra("Source", "CharacterView");
+            intent.putExtra("Character", character);
+            startActivity(intent);
+        }
+
+        databaseAccess.deleteCharacterSpells(characterSpells,character.getName());
         Intent intent = new Intent(getApplicationContext(),SpellCardGallery.class);
         intent.putExtra("Source", "CharacterView");
         intent.putExtra("Character", character);
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onBackPressed()  {
+        if(extras.get("Source").equals("CharacterCreation"))
+        {
+            Intent intent = new Intent(getApplicationContext(), CharacterCreation.class);
+            startActivity(intent);
+        }
+        else if(extras.get("Source").equals("CharacterView"))
+        {
+            Intent intent = new Intent(getApplicationContext(), CharacterView.class);
+            startActivity(intent);
+        }
+        else if(extras.get("Source").equals("AddToDeck"))
+        {
+
+            Intent intent = new Intent(getApplicationContext(), SpellCardGallery.class);
+            intent.putExtra("Source", "CharacterView");
+            intent.putExtra("Character", character);
+            startActivity(intent);
+        }
+        else if(extras.get("Source").equals("DeleteFromDeck"))
+        {
+            Intent intent = new Intent(getApplicationContext(), SpellCardGallery.class);
+            intent.putExtra("Source", "CharacterView");
+            intent.putExtra("Character", character);
+            startActivity(intent);
+        }
     }
 
 
