@@ -4,6 +4,7 @@ package com.example.dndapp;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -77,6 +78,7 @@ public class CharacterViewAdapter extends RecyclerView.Adapter<CharacterViewAdap
     public void onBindViewHolder(CharacterViewAdapter.ViewHolder viewHolder, final int position) {
         // Get the data model based on position
         //currentPosition = position;
+        Typeface vecna = Typeface.createFromAsset(context.getAssets(), "fonts/VecnaItalic.otf");
         final Character character = mCharacter.get(position);
 
         TextView textView;
@@ -102,15 +104,19 @@ public class CharacterViewAdapter extends RecyclerView.Adapter<CharacterViewAdap
 
         textView = viewHolder.nameTextView;
         textView.setText(character.getName());
+        viewHolder.nameTextView.setTypeface(vecna);
 
         textView = viewHolder.raceTextView;
         textView.setText(race);
+        viewHolder.raceTextView.setTypeface(vecna);
 
         textView = viewHolder.classTextView;
         textView.setText(character.getCharacterclass());
+        viewHolder.classTextView.setTypeface(vecna);
 
         textView = viewHolder.levelTextView;
         textView.setText(level);
+        viewHolder.levelTextView.setTypeface(vecna);
     }
 
     public void removeCharacter(int position){

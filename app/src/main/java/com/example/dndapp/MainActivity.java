@@ -12,29 +12,14 @@ import com.example.dndapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button button_filter;
-    private Button button_spell;
+
     private Button btn_characterview;
-    private Button btn_charactercreation;
+    private Button test;
+
     private DatabaseOpenHelper dbhelper;
     private
     Context context;
 
-    private View.OnClickListener onclick_viewSpell = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View v){
-            viewSpellCard();
-        }
-    };
-
-    private View.OnClickListener onclick_filter = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View v){
-            filterSpellCards();
-        }
-    };
 
     private View.OnClickListener onclick_character = new View.OnClickListener()
     {
@@ -44,11 +29,11 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private View.OnClickListener onclick_charactercreation = new View.OnClickListener()
+    private View.OnClickListener click_test = new View.OnClickListener()
     {
         @Override
-        public void onClick(View v) {
-            charactercreate();
+        public void onClick(View v){
+            test();
         }
     };
 
@@ -58,36 +43,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
 
-        button_spell = (Button) findViewById(R.id.Spell);
-        button_spell.setOnClickListener((onclick_viewSpell));
-
-        button_filter = (Button) findViewById(R.id.filter);
-        button_filter.setOnClickListener((onclick_filter));
 
         btn_characterview = findViewById(R.id.characterview);
-        btn_characterview.setOnClickListener((onclick_character));
+        btn_characterview.setOnClickListener(onclick_character);
 
-        btn_charactercreation = findViewById(R.id.main_charactercreation);
-        btn_charactercreation.setOnClickListener((onclick_charactercreation));
+        test = findViewById(R.id.test);
+        test.setOnClickListener(click_test);
 
         dbhelper = new DatabaseOpenHelper(this);
-
     }
 
     private void characterview(){
         startActivity(new Intent(MainActivity.this, CharacterView.class));
     }
 
-    private void viewSpellCard(){
-        startActivity(new Intent(MainActivity.this, ViewSpellCard.class));
+    private void test() {
+        startActivity(new Intent(MainActivity.this, CharacterProfile.class));
     }
 
-    private void filterSpellCards(){
-        startActivity(new Intent(MainActivity.this, ViewFilter.class));
-    }
-
-    private void charactercreate () {
-        startActivity(new Intent(MainActivity.this, CharacterCreation.class));
-    }
 
 }
