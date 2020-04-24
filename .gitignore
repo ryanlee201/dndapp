@@ -46,5 +46,8 @@ filetypes.xml
 ide.general.xml
 .idea
 
-/.idea/workspace.xml
+.idea/workspace.xml
 /.idea/libraries
+.idea/workspace.xml
+*.xml
+.idea/workspace.xml
